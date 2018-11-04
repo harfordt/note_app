@@ -2,7 +2,9 @@
     margin-bottom: 1rem;
     font-size: 0.8rem;
 }
-
+.card-header{
+    padding: 0.25rem !important;
+}
 .card-link {
     color: rgb(255, 255, 255);
     border: 1px solid rgb(255, 255, 255);
@@ -48,11 +50,11 @@
     background-color: rgb(108, 117, 125) !important;
 }
 
-.material-icons {
-    /*display:inline;*/
-    font-size: 1rem;
-    width: 1rem;
-}
+/*.material-icons {*/
+    /*!*display:inline;*!*/
+    /*font-size: 1rem;*/
+    /*width: 1rem;*/
+/*}*/
 
 .btn-outline-light {
     border-radius: 0;
@@ -60,6 +62,7 @@
     font-size: 0.8rem;
 }
 
-/*.kanban-panel{*/
-    /*background-color: */
-/*}*/
+.actions .material-icons{
+   font-size:2rem;
+    width:2rem;
+}
