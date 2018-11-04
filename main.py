@@ -60,12 +60,18 @@ def create_status(con, status):
     return cur.lastrowid
 
 
-def create_note(con, note):
+def create_note(title, priority, status, category):
+    con = create_connection('notes.db')
     today = datetime.datetime.today().strftime('%Y-%m-%d')
+    note = (title, priority, status, category, today)
+    print(note)
     sql = """INSERT INTO note(title, priority_id, status_id, category_id, add_date) VALUES(?,?,?,?,?);"""
     cur = con.cursor()
     cur.execute(sql, note)
-    return cur.lastrowid
+    con.commit()
+    con.close()
+    print(cur.lastrowid )
+    # return cur.lastrowid
 
 
 def select_all_notes():
@@ -254,6 +260,10 @@ def home():
 @app.route('/notes')
 def notes():
     all_notes, categories = select_all_notes()
+    for note_set in all_notes:
+        for note in note_set:
+            print(note)
+        print()
     return render_template("notes.html", notes=all_notes, categories=categories)
 
 
@@ -268,8 +278,9 @@ def do_add_note():
     title = request.form['title']
     status = request.form['status']
     priority = request.form['priority']
-    print(title, status, priority)
-
+    category = request.form['category']
+    print(title, status, priority,category)
+    create_note(title, priority, status, category)
 
     return redirect('/notes')
 
