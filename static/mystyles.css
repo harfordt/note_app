@@ -2,9 +2,11 @@
     margin-bottom: 1rem;
     font-size: 0.8rem;
 }
-.card-header{
+
+.card-header {
     padding: 0.25rem !important;
 }
+
 .card-link {
     color: rgb(255, 255, 255);
     border: 1px solid rgb(255, 255, 255);
@@ -15,9 +17,11 @@
 .card-body {
     padding: 0.25rem;
 }
-.card-body>p{
+
+.card-body > p {
     margin-bottom: 0.2rem;
 }
+
 .bg-danger {
     background-color: rgba(220, 53, 69, 0.8) !important;
 }
@@ -51,9 +55,9 @@
 }
 
 /*.material-icons {*/
-    /*!*display:inline;*!*/
-    /*font-size: 1rem;*/
-    /*width: 1rem;*/
+/*!*display:inline;*!*/
+/*font-size: 1rem;*/
+/*width: 1rem;*/
 /*}*/
 
 .btn-outline-light {
@@ -62,7 +66,11 @@
     font-size: 0.8rem;
 }
 
-.actions .material-icons{
-   font-size:2rem;
-    width:2rem;
+.actions .material-icons {
+    font-size: 2rem;
+    width: 2rem;
+}
+
+.nav .nav-item {
+    margin: 0.3rem;
 }
