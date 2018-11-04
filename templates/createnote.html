@@ -10,6 +10,10 @@
                     {{ form.title(class="form-control", placeholder="Task title") }}
                 </div>
                 <div class="form-group row">
+                    {{ form.category.label }}
+                    {{ form.category(class="form-control")}}
+                </div>
+                <div class="form-group row">
                     {{ form.priority.label }}
                     {{ form.priority(class="form-control")}}
                 </div>
