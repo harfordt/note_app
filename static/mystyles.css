@@ -1,0 +1,65 @@
+.card {
+    margin-bottom: 1rem;
+    font-size: 0.8rem;
+}
+
+.card-link {
+    color: rgb(255, 255, 255);
+    border: 1px solid rgb(255, 255, 255);
+    padding: 0.2rem;
+    margin-left: 0.5rem !important;
+}
+
+.card-body {
+    padding: 0.25rem;
+}
+.card-body>p{
+    margin-bottom: 0.2rem;
+}
+.bg-danger {
+    background-color: rgba(220, 53, 69, 0.8) !important;
+}
+
+.bg-danger > .card-header {
+    background-color: rgb(220, 53, 69) !important;
+}
+
+.bg-warning {
+    background-color: rgba(255, 193, 7, 0.8) !important;
+}
+
+.bg-warning > .card-header {
+    background-color: rgb(255, 193, 7) !important;
+}
+
+.bg-primary {
+    background-color: rgba(0, 123, 255, 0.8) !important;
+}
+
+.bg-primary > .card-header {
+    background-color: rgb(0, 123, 255) !important;
+}
+
+.bg-secondary {
+    background-color: rgba(108, 117, 125, 0.8) !important;
+}
+
+.bg-secondary > .card-header {
+    background-color: rgb(108, 117, 125) !important;
+}
+
+.material-icons {
+    /*display:inline;*/
+    font-size: 1rem;
+    width: 1rem;
+}
+
+.btn-outline-light {
+    border-radius: 0;
+    padding: 0.2rem 0.3rem;
+    font-size: 0.8rem;
+}
+
+/*.kanban-panel{*/
+    /*background-color: */
+/*}*/

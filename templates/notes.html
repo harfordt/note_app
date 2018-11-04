@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block body %}
+<h1>notes template yo</h1>
+<div class="row">
+    {% for note_set in notes %}
+    <div class="kanban-panel bg-light col-lg-4">
+        <h2>{{ categories[loop.index-1] }}</h2>
+        {% set count = loop.index %}
+        {% for note in note_set %}
+        <div class="card
+        {% if note[3] == 'Parked' %}
+        text-white bg-secondary
+        {% elif note[2] == 'Low' %}
+        bg-warning
+        {% elif note[2] == 'Normal' %}
+        text-white bg-primary
+        {% elif note[2] == 'High' %}
+        text-white bg-danger
+        {% endif %}">
+            <div class="card-header">
+                <strong>{{ note[1] }}</strong>
+            </div>
+            <div class="card-body">
+                <p><strong>Priority: </strong>{{ note[2] }}</p>
+                <p><strong>Status: </strong>{{ note[3] }}</p>
+                <p><strong>Category: </strong>{{ note[4] }}</p>
+                <p><strong>Added: </strong>{{ note[5] }}</p>
+            </div>
+            <div class="card-body">
+                <a href="/notes/decrease_priority/{{ note[0] }}" class="btn btn-outline-light float-left"><i class="material-icons">arrow_downwards</i>Decrease priority</a>
+                <a href="/notes/increase_priority/{{ note[0] }}" class="btn btn-outline-light float-right">Increase priority <i class="material-icons">arrow_upwards</i></a>
+            </div>
+            <div class="card-body">
+                {% if count > 1 %}
+                <a href="/notes/demote/{{ note[0] }}" class="btn btn-outline-light float-left"><i class="material-icons">arrow_backward</i>
+                    Demote</a>
+                {% endif %}
+                {% if count < categories|length %}
+                <a href="/notes/promote/{{ note[0] }}" class="btn btn-outline-light float-right">Promote <i
+                        class="material-icons">arrow_forward</i></a>
+                {% endif %}
+            </div>
+            <div class="card-body">
+                <a href="/notes/delete/{{ note[0] }}" class="btn btn-outline-light "><i class="material-icons">delete_forever</i>
+                    Delete</a>
+                {% if note[3] == 'Active' %}
+                <a href="/notes/make_parked/{{ note[0] }}" class="btn btn-outline-light "><i class="material-icons">archive</i> Park</a>
+                {% else %}
+                <a href="/notes/make_active/{{ note[0] }}" class="btn btn-outline-light "><i class="material-icons">restore</i>
+                    Activate</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
