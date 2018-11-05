@@ -40,6 +40,15 @@ def create_table(con, query):
 
 
 def create_category(con, category):
+    """
+
+    Args:
+        con:
+        category:
+
+    Returns:
+
+    """
     sql = """INSERT INTO category(name) VALUES(?);"""
     cur = con.cursor()
     cur.execute(sql, (category,))
@@ -47,6 +56,15 @@ def create_category(con, category):
 
 
 def create_priority(con, priority):
+    """
+
+    Args:
+        con:
+        priority:
+
+    Returns:
+
+    """
     sql = """INSERT INTO priority(name) VALUES(?);"""
     cur = con.cursor()
     cur.execute(sql, (priority,))
@@ -54,6 +72,15 @@ def create_priority(con, priority):
 
 
 def create_status(con, status):
+    """
+
+    Args:
+        con:
+        status:
+
+    Returns:
+
+    """
     sql = """INSERT INTO status(name) VALUES(?);"""
     cur = con.cursor()
     cur.execute(sql, (status,))
@@ -61,6 +88,17 @@ def create_status(con, status):
 
 
 def create_note(title, priority, status, category):
+    """
+
+    Args:
+        title:
+        priority:
+        status:
+        category:
+
+    Returns:
+
+    """
     con = create_connection('notes.db')
     today = datetime.datetime.today().strftime('%Y-%m-%d')
     note = (title, priority, status, category, today)
@@ -75,13 +113,18 @@ def create_note(title, priority, status, category):
 
 
 def select_all_notes():
+    """
+
+    Returns:
+
+    """
     con = create_connection('notes.db')
     get_all_notes = """SELECT note.id, note.title, priority.name, status.name, category.name, note.add_date
                 FROM note
                 INNER JOIN priority ON note.priority_id=priority.id
                 INNER JOIN status ON note.status_id=status.id
                 INNER JOIN category on note.category_id = category.id
-                ORDER BY category_id ASC, status_id ASC, priority_id ASC, add_date ASC;
+                ORDER BY category_id ASC, status_id ASC, priority_id DESC, add_date ASC;
             """
     get_categories = "SELECT name FROM category"
 
@@ -109,6 +152,15 @@ def select_all_notes():
 
 
 def select_note_by_priority(con, priority):
+    """
+
+    Args:
+        con:
+        priority:
+
+    Returns:
+
+    """
     sql = "SELECT * FROM note WHERE priority=?"
     cur = con.cursor()
     cur.execute(sql, (priority,))
@@ -120,6 +172,14 @@ def select_note_by_priority(con, priority):
 
 
 def demote_note(note_id):
+    """
+
+    Args:
+        note_id:
+
+    Returns:
+
+    """
     con = create_connection('notes.db')
     sql = "UPDATE note SET category_id = category_id - 1 WHERE id = ?"
     curr = con.cursor()
@@ -129,6 +189,14 @@ def demote_note(note_id):
 
 
 def promote_note(note_id):
+    """
+
+    Args:
+        note_id:
+
+    Returns:
+
+    """
     con = create_connection('notes.db')
     sql = "UPDATE note SET category_id = category_id + 1 WHERE id = ?"
     curr = con.cursor()
@@ -216,6 +284,14 @@ def decrease_priority(note_id):
 
 
 def delete_note(note_id):
+    """
+
+    Args:
+        note_id:
+
+    Returns:
+
+    """
     con = create_connection('notes.db')
     sql = "DELETE FROM note WHERE id=?"
     curr = con.cursor()
@@ -225,6 +301,11 @@ def delete_note(note_id):
 
 
 def delete_all_notes():
+    """
+
+    Returns:
+
+    """
     con = create_connection('notes.db')
     sql = "DELETE FROM note"
     curr = con.cursor()
@@ -233,6 +314,11 @@ def delete_all_notes():
 
 
 def get_priorities():
+    """
+
+    Returns:
+
+    """
     con = create_connection('notes.db')
     sql = "SELECT id, name FROM priority"
     curr = con.cursor()
@@ -243,6 +329,11 @@ def get_priorities():
 
 
 def get_statii():
+    """
+
+    Returns:
+
+    """
     con = create_connection('notes.db')
     sql = "SELECT id,name FROM status"
     curr = con.cursor()
@@ -254,11 +345,21 @@ def get_statii():
 
 @app.route('/')
 def home():
+    """
+
+    Returns:
+
+    """
     return render_template("home.html")
 
 
 @app.route('/notes')
 def notes():
+    """
+
+    Returns:
+
+    """
     all_notes, categories = select_all_notes()
     for note_set in all_notes:
         for note in note_set:
@@ -269,12 +370,22 @@ def notes():
 
 @app.route('/notes/create')
 def add_note():
+    """
+
+    Returns:
+
+    """
     form = NewNoteForm()
     return render_template("createnote.html", form=form, priorities=get_priorities(), statii=get_statii())
 
 
 @app.route('/do_create_note', methods=['POST'])
 def do_add_note():
+    """
+
+    Returns:
+
+    """
     title = request.form['title']
     status = request.form['status']
     priority = request.form['priority']
@@ -287,6 +398,14 @@ def do_add_note():
 
 @app.route('/notes/delete/<note_id>')
 def delete_note_route(note_id):
+    """
+
+    Args:
+        note_id:
+
+    Returns:
+
+    """
     print("delete note {}".format(note_id))
     delete_note(note_id)
     return redirect('/notes')
@@ -294,6 +413,14 @@ def delete_note_route(note_id):
 
 @app.route('/notes/demote/<note_id>')
 def demote_note_route(note_id):
+    """
+
+    Args:
+        note_id:
+
+    Returns:
+
+    """
     print("demote note {}".format(note_id))
     demote_note(note_id)
     return redirect('/notes')
@@ -301,6 +428,14 @@ def demote_note_route(note_id):
 
 @app.route('/notes/promote/<note_id>')
 def promote_note_route(note_id):
+    """
+
+    Args:
+        note_id:
+
+    Returns:
+
+    """
     print("promote note {}".format(note_id))
     promote_note(note_id)
     return redirect('/notes')
@@ -308,29 +443,69 @@ def promote_note_route(note_id):
 
 @app.route('/notes/make_parked/<note_id>')
 def make_parked_route(note_id):
+    """
+
+    Args:
+        note_id:
+
+    Returns:
+
+    """
     make_parked(note_id)
     return redirect('/notes')
 
 
 @app.route('/notes/make_active/<note_id>')
 def make_active_route(note_id):
+    """
+
+    Args:
+        note_id:
+
+    Returns:
+
+    """
     make_active(note_id)
     return redirect('/notes')
 
 
 @app.route('/notes/increase_priority/<note_id>')
 def increase_priority_route(note_id):
+    """
+
+    Args:
+        note_id:
+
+    Returns:
+
+    """
     increase_priority(note_id)
     return redirect('/notes')
 
 
 @app.route('/notes/decrease_priority/<note_id>')
 def decrease_priority_route(note_id):
+    """
+
+    Args:
+        note_id:
+
+    Returns:
+
+    """
     decrease_priority(note_id)
     return redirect('/notes')
 
 
 def initialise_database(con):
+    """
+
+    Args:
+        con:
+
+    Returns:
+
+    """
     sql_create_category_table = """ CREATE TABLE IF NOT EXISTS category (
                                            id integer PRIMARY KEY,
                                            name text NOT NULL
