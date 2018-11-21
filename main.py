@@ -102,13 +102,13 @@ def create_note(title, priority, status, category):
     con = create_connection('notes.db')
     today = datetime.datetime.today().strftime('%Y-%m-%d')
     note = (title, priority, status, category, today)
-    print(note)
+    # print(note)
     sql = """INSERT INTO note(title, priority_id, status_id, category_id, add_date) VALUES(?,?,?,?,?);"""
     cur = con.cursor()
     cur.execute(sql, note)
     con.commit()
     con.close()
-    print(cur.lastrowid )
+    # print(cur.lastrowid)
     # return cur.lastrowid
 
 
@@ -165,10 +165,10 @@ def select_note_by_priority(con, priority):
     cur = con.cursor()
     cur.execute(sql, (priority,))
     rows = cur.fetchall()
-    print(rows)
-    print("$$$")
-    for row in rows:
-        print(row)
+    # print(rows)
+    # print("$$$")
+    # for row in rows:
+    #     print(row)
 
 
 def demote_note(note_id):
@@ -284,13 +284,12 @@ def decrease_priority(note_id):
 
 
 def delete_note(note_id):
-    """
+    """Deletes the note with the given id.
 
+    Note:
+        Does not check if the note exists, or return any indication of success or failure.
     Args:
-        note_id:
-
-    Returns:
-
+        note_id (int): ID of the note to be deleted.
     """
     con = create_connection('notes.db')
     sql = "DELETE FROM note WHERE id=?"
@@ -348,7 +347,6 @@ def home():
     """
 
     Returns:
-
     """
     return render_template("home.html")
 
@@ -357,23 +355,21 @@ def home():
 def notes():
     """
 
-    Returns:
-
+    Returns: Renders the user's board
     """
     all_notes, categories = select_all_notes()
-    for note_set in all_notes:
-        for note in note_set:
-            print(note)
-        print()
+    # for note_set in all_notes:
+    #     for note in note_set:
+    #         print(note)
+    #     print()
     return render_template("notes.html", notes=all_notes, categories=categories)
 
 
 @app.route('/notes/create')
 def add_note():
-    """
+    """Creates a new note form and renders the new note page.
 
-    Returns:
-
+    Returns: renders the create_note page
     """
     form = NewNoteForm()
     return render_template("createnote.html", form=form, priorities=get_priorities(), statii=get_statii())
@@ -383,14 +379,13 @@ def add_note():
 def do_add_note():
     """
 
-    Returns:
-
+    Returns: a redirect to the user's board
     """
     title = request.form['title']
     status = request.form['status']
     priority = request.form['priority']
     category = request.form['category']
-    print(title, status, priority,category)
+    # print(title, status, priority, category)
     create_note(title, priority, status, category)
 
     return redirect('/notes')
@@ -401,12 +396,11 @@ def delete_note_route(note_id):
     """
 
     Args:
-        note_id:
-
+        note_id: a redirect to the user's board
     Returns:
 
     """
-    print("delete note {}".format(note_id))
+    # print("delete note {}".format(note_id))
     delete_note(note_id)
     return redirect('/notes')
 
@@ -418,10 +412,9 @@ def demote_note_route(note_id):
     Args:
         note_id:
 
-    Returns:
-
+    Returns: a redirect to the user's board
     """
-    print("demote note {}".format(note_id))
+    # print("demote note {}".format(note_id))
     demote_note(note_id)
     return redirect('/notes')
 
@@ -433,10 +426,9 @@ def promote_note_route(note_id):
     Args:
         note_id:
 
-    Returns:
-
+    Returns: a redirect to the user's board
     """
-    print("promote note {}".format(note_id))
+    # print("promote note {}".format(note_id))
     promote_note(note_id)
     return redirect('/notes')
 
@@ -448,8 +440,7 @@ def make_parked_route(note_id):
     Args:
         note_id:
 
-    Returns:
-
+    Returns: a redirect to the user's board
     """
     make_parked(note_id)
     return redirect('/notes')
@@ -462,8 +453,7 @@ def make_active_route(note_id):
     Args:
         note_id:
 
-    Returns:
-
+    Returns: a redirect to the user's board
     """
     make_active(note_id)
     return redirect('/notes')
@@ -476,8 +466,7 @@ def increase_priority_route(note_id):
     Args:
         note_id:
 
-    Returns:
-
+    Returns: a redirect to the user's board
     """
     increase_priority(note_id)
     return redirect('/notes')
@@ -485,13 +474,12 @@ def increase_priority_route(note_id):
 
 @app.route('/notes/decrease_priority/<note_id>')
 def decrease_priority_route(note_id):
-    """
+    """Calls decrease_priority for the given card.
 
     Args:
-        note_id:
+        note_id (int): id of the given card
 
-    Returns:
-
+    Returns: a redirect to the user's board
     """
     decrease_priority(note_id)
     return redirect('/notes')
@@ -592,7 +580,7 @@ def main():
     #     create_note(con, note_1)
     #     create_note(con, note_2)
 
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
 
 
 if __name__ == "__main__":
